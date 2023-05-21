@@ -1,0 +1,13 @@
+service: otel-lambda
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+  tracing:
+    lambda: true
+ 
+functions:
+  hello:
+    handler: handler.hello

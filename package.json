@@ -1,0 +1,16 @@
+{
+  "name": "otel-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "deploy": "npx sls deploy"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^3.16.0",
+    "serverless-plugin-git-variables": "^5.2.0",
+    "serverless-prune-plugin": "^2.0.1",
+    "serverless-python-requirements": "^5.4.0"
+  }
+}
