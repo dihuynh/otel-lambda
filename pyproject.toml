@@ -6,8 +6,8 @@ authors = ["Di Huynh <di.huynh179@yahoo.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-boto3 = "^1.26.137"
+python = "3.9"
+pygithub = { version = "^1.58.2", python = ">=3.7" }
 
 
 [build-system]

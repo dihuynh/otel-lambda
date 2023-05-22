@@ -7,7 +7,24 @@ provider:
   runtime: python3.9
   tracing:
     lambda: true
+  architecture: arm64
+custom:
+  pythonRequirements:
+    slim: true
+    dockerizePip: true
+    dockerRunCmdExtraArgs: [ '--platform', 'linux/arm64/v8' ]
+    dockerImage: public.ecr.aws/sam/build-python3.9:latest-arm64
+plugins:
+  - serverless-python-requirements
+	
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!infra/terraform/**'
  
 functions:
   hello:
-    handler: handler.hello
+    module: .
+    handler: handler.get_repos
+    environment:
+      GITHUB_TOKEN: ${ssm:/github_token}
