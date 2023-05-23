@@ -28,3 +28,6 @@ functions:
     handler: handler.get_repos
     environment:
       GITHUB_TOKEN: ${ssm:/github_token}
+      AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument
+    layers:
+      - arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-python-arm64-ver-1-17-0:1

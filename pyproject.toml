@@ -8,7 +8,13 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "3.9"
 pygithub = { version = "^1.58.2", python = ">=3.7" }
+urllib3 = "<2"
 
+
+[tool.poetry.group.test.dependencies]
+opentelemetry-distro = {extras = ["otlp"], version = "^0.39b0"}
+opentelemetry-sdk-extension-aws = "^2.0.1"
+opentelemetry-propagator-aws-xray = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]
