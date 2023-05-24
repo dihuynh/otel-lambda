@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "invoke": "aws lambda invoke --function-name otel-lambda-dev-hello --payload {} result.out && cat result.out",
     "deploy": "npx sls deploy"
   },
   "author": "",
