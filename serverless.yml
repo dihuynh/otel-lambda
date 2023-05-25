@@ -1,4 +1,4 @@
-service: otel-lambda
+service: otel-demos
 
 frameworkVersion: '3'
 
@@ -8,6 +8,17 @@ provider:
   tracing:
     lambda: true
   architecture: arm64
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: 'sns:*'
+          Resource: '*'
+        - Effect: Allow
+          Action: 'sqs:*'
+          Resource:
+            - '*'
+
 custom:
   pythonRequirements:
     slim: true
@@ -23,10 +34,36 @@ package:
     - '!infra/terraform/**'
  
 functions:
-  hello:
+  get_github_repos:
     module: .
-    handler: handler.get_repos
+    handler: simple_lambda.get_repos
     timeout: 900
+    environment:
+      GITHUB_TOKEN: ${ssm:/github_token}
+      AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument
+      # GITHUB_ORG: upside-services
+    layers:
+      - arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-python-arm64-ver-1-17-0:1
+  
+  upside_trifecta_sender:
+    module: .
+    handler: upside_trifecta_sender.handler
+    timeout: 900
+    environment:
+      GITHUB_TOKEN: ${ssm:/github_token}
+      AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument
+      # GITHUB_ORG: upside-services
+      SNS_RECENT_REPOS_ARN: arn:aws:sns:us-east-1:612245820181:recently_updated_repos
+    layers:
+      - arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-python-arm64-ver-1-17-0:1
+  
+  upside_trifecta_consumer:
+    module: .
+    handler: upside_trifecta_consumer.handler
+    timeout: 30
+    events:
+      - sqs:
+          arn: arn:aws:sqs:us-east-1:612245820181:calculate_action_stats
     environment:
       GITHUB_TOKEN: ${ssm:/github_token}
       AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument

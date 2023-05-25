@@ -20,4 +20,6 @@ var/
 .serverless
 **/node_modules/**
 **/.terraform/**
+**/terraform.tfstate
+**/terraform.tfstate.backup
 result.out
